@@ -1,4 +1,5 @@
 const assert = require("chai").assert;
+const expect = require("chai").expect;
 const bottles = require("../bottles").bottles;
 
 describe("bottles", function() {
@@ -11,8 +12,13 @@ describe("bottles", function() {
     assert.isFunction(bottles);
   });
 
-  it("should return an object", function() {
-    assert.isObject(bottles());
+  it("should throw an error given a non-number", function() {
+    const textInputBottles = bottles.bind(null, 'a');
+    expect(textInputBottles).to.throw();
+  });
+
+  it("should return an object given a number", function() {
+    assert.isObject(bottles(0));
   });
 
   it("should return 0 total give 0$", function() {
@@ -24,7 +30,7 @@ describe("bottles", function() {
   it("should return 0 total give -10000$", function() {
     const funds = -10000;
     const result = bottles(funds);
-    assert.strictEqual(result.total, -10000);
+    assert.strictEqual(result.total, 0);
   });
 
   it("should return 15 total given 10$", function() {
@@ -48,7 +54,7 @@ describe("bottles", function() {
   it("should return 75 total given 40$", function() {
     const funds = 40;
     const result = bottles(funds);
-    assert.strictEqual(result.total, 70);
+    assert.strictEqual(result.total, 75);
   });
 
   it("should return 37 bottles earned from bottles given 40$", function() {
@@ -72,6 +78,6 @@ describe("bottles", function() {
   it("should return 3 caps remaining from bottles given 40$", function() {
     const funds = 40;
     const result = bottles(funds);
-    assert.strictEqual(result.remainin.caps, 3);
+    assert.strictEqual(result.remaining.caps, 3);
   });
 });
